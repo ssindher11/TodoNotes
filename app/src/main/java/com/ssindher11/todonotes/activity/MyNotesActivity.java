@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +29,7 @@ public class MyNotesActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAddNotes;
     private RecyclerView notesRV;
+    private TextView nameTV;
 
     String fullName;
     ArrayList<Notes> notesList = new ArrayList<>();
@@ -44,8 +44,7 @@ public class MyNotesActivity extends AppCompatActivity {
         setupSharedPreference();
         getIntentData();
 
-        getSupportActionBar().setTitle(fullName);
-
+        nameTV.setText(fullName);
 
         fabAddNotes.setOnClickListener(v -> setupDialogBox());
     }
@@ -53,6 +52,7 @@ public class MyNotesActivity extends AppCompatActivity {
     private void bindViews() {
         notesRV = findViewById(R.id.rv_notes);
         fabAddNotes = findViewById(R.id.fab_add_notes);
+        nameTV = findViewById(R.id.tv_name);
     }
 
     private void setupSharedPreference() {

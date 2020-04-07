@@ -11,17 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_detail" />
 
     <TextView
         android:id="@+id/tv_desc_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_title_detail"
         app:layout_constraintStart_toStartOf="@+id/tv_title_detail"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_detail" />
+        app:layout_constraintTop_toBottomOf="@+id/view_separator"
+        tools:text="Description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
