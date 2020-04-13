@@ -1,4 +1,4 @@
-package com.ssindher11.todonotes.activity
+package com.ssindher11.todonotes.view
 
 import android.content.Context
 import android.content.Intent

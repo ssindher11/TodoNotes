@@ -1,4 +1,4 @@
-package com.ssindher11.todonotes.activity
+package com.ssindher11.todonotes.view
 
 import android.os.Bundle
 import android.widget.TextView
