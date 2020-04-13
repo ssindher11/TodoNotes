@@ -9,17 +9,18 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
-import com.ssindher11.todonotes.AppConstants
 import com.ssindher11.todonotes.R
+import com.ssindher11.todonotes.utils.AppConstant
+import com.ssindher11.todonotes.utils.PrefConstant
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var fullnameET: EditText
-    lateinit var usernameET: EditText
-    lateinit var loginBtn: MaterialButton
+    private lateinit var fullnameET: EditText
+    private lateinit var usernameET: EditText
+    private lateinit var loginBtn: MaterialButton
 
-    lateinit var sharedPreferences: SharedPreferences
-    lateinit var editor: SharedPreferences.Editor
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (fullName.isNotBlank() and userName.isNotBlank()) {
                 val intent = Intent(this@LoginActivity, MyNotesActivity::class.java)
-                intent.putExtra(AppConstants.FULL_NAME, fullName)
+                intent.putExtra(AppConstant.FULL_NAME, fullName)
                 startActivity(intent)
                 saveLoginStatus()
                 saveFullname(fullName)
@@ -53,18 +54,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences(AppConstants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(PrefConstant.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
     private fun saveLoginStatus() {
         editor = sharedPreferences.edit()
-        editor.putBoolean(AppConstants.IS_LOGGED_IN, true)
+        editor.putBoolean(PrefConstant.IS_LOGGED_IN, true)
         editor.apply()
     }
 
     private fun saveFullname(fullName: String) {
         editor = sharedPreferences.edit()
-        editor.putString(AppConstants.FULL_NAME, fullName)
+        editor.putString(AppConstant.FULL_NAME, fullName)
         editor.apply()
     }
 

@@ -14,22 +14,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.ssindher11.todonotes.AppConstants
 import com.ssindher11.todonotes.R
 import com.ssindher11.todonotes.adapter.NotesAdapter
 import com.ssindher11.todonotes.clicklisteners.ItemClickListener
 import com.ssindher11.todonotes.model.Notes
+import com.ssindher11.todonotes.utils.AppConstant
+import com.ssindher11.todonotes.utils.PrefConstant
 
 class MyNotesActivity : AppCompatActivity() {
 
-    lateinit var fabAddNotes: FloatingActionButton
-    lateinit var notesRV: RecyclerView
-    lateinit var nameTV: TextView
+    private lateinit var fabAddNotes: FloatingActionButton
+    private lateinit var notesRV: RecyclerView
+    private lateinit var nameTV: TextView
 
     lateinit var sharedPreferences: SharedPreferences
 
-    var fullName: String? = null
-    var notesList = ArrayList<Notes>()
+    private var fullName: String? = null
+    private var notesList = ArrayList<Notes>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +51,16 @@ class MyNotesActivity : AppCompatActivity() {
     }
 
     private fun setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences(AppConstants.SHARED_PREFERENCES_NAME, MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(PrefConstant.SHARED_PREFERENCES_NAME, MODE_PRIVATE)
     }
 
     private fun getIntentData() {
         val intent = intent
-        if (intent.hasExtra(AppConstants.FULL_NAME)) {
-            fullName = intent.getStringExtra(AppConstants.FULL_NAME)
+        if (intent.hasExtra(AppConstant.FULL_NAME)) {
+            fullName = intent.getStringExtra(AppConstant.FULL_NAME)
         }
         if (fullName.isNullOrBlank()) {
-            fullName = sharedPreferences.getString(AppConstants.FULL_NAME, "")!!
+            fullName = sharedPreferences.getString(PrefConstant.FULL_NAME, "")!!
         }
     }
 
@@ -92,8 +93,8 @@ class MyNotesActivity : AppCompatActivity() {
         val itemClickListener: ItemClickListener = object : ItemClickListener {
             override fun onClick(notes: Notes) {
                 val intent = Intent(this@MyNotesActivity, DetailActivity::class.java)
-                intent.putExtra(AppConstants.TITLE, notes.title)
-                intent.putExtra(AppConstants.DESCRIPTION, notes.description)
+                intent.putExtra(AppConstant.TITLE, notes.title)
+                intent.putExtra(AppConstant.DESCRIPTION, notes.description)
                 startActivity(intent)
             }
         }

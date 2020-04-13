@@ -3,13 +3,13 @@ package com.ssindher11.todonotes.view
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.ssindher11.todonotes.AppConstants
 import com.ssindher11.todonotes.R
+import com.ssindher11.todonotes.utils.AppConstant
 
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var titleTV: TextView
-    lateinit var descTV: TextView
+    private lateinit var titleTV: TextView
+    private lateinit var descTV: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +25,8 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setIntentData() {
         val intent = intent
-        val title = intent.getStringExtra(AppConstants.TITLE)
-        val description = intent.getStringExtra(AppConstants.DESCRIPTION)
+        val title = intent.getStringExtra(AppConstant.TITLE)
+        val description = intent.getStringExtra(AppConstant.DESCRIPTION)
         titleTV.text = title
         descTV.text = description
     }

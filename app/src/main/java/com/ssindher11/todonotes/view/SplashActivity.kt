@@ -5,12 +5,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ssindher11.todonotes.AppConstants
 import com.ssindher11.todonotes.R
+import com.ssindher11.todonotes.utils.PrefConstant
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +21,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setupSharedPreferences() {
-        sharedPreferences = getSharedPreferences(AppConstants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(PrefConstant.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
     private fun checkOnLoginStatus() {
-        val isLoggedIn = sharedPreferences.getBoolean(AppConstants.IS_LOGGED_IN, false)
+        val isLoggedIn = sharedPreferences.getBoolean(PrefConstant.IS_LOGGED_IN, false)
         if (isLoggedIn) {
             startActivity(Intent(this@SplashActivity, MyNotesActivity::class.java))
         } else {
