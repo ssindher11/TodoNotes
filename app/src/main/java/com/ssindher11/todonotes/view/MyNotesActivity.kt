@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ssindher11.todonotes.NotesApp
 import com.ssindher11.todonotes.R
 import com.ssindher11.todonotes.adapter.NotesAdapter
 import com.ssindher11.todonotes.clicklisteners.ItemClickListener
-import com.ssindher11.todonotes.model.Notes
+import com.ssindher11.todonotes.db.Notes
 import com.ssindher11.todonotes.utils.AppConstant
 import com.ssindher11.todonotes.utils.PrefConstant
 
@@ -38,6 +39,8 @@ class MyNotesActivity : AppCompatActivity() {
         bindViews()
         setupSharedPreferences()
         getIntentData()
+        getDataFromDatabase()
+        setupRecyclerView()
 
         nameTV.text = fullName
 
@@ -64,6 +67,12 @@ class MyNotesActivity : AppCompatActivity() {
         }
     }
 
+    private fun getDataFromDatabase() {
+        val notesApp = applicationContext as NotesApp
+        val notesDao = notesApp.getNotesDb().notesDao()
+        notesList.addAll(notesDao.getAll())
+    }
+
     private fun setupDialogBox() {
         val view: View = LayoutInflater.from(this@MyNotesActivity).inflate(R.layout.add_notes_dialog_layout, null)
         val titleET: EditText = view.findViewById(R.id.et_title)
@@ -78,11 +87,12 @@ class MyNotesActivity : AppCompatActivity() {
             val title = titleET.text.toString()
             val desc = descET.text.toString()
             if (title.isNotBlank() and desc.isNotBlank()) {
-                notesList.add(Notes(title, desc))
+                val notes = Notes(title = title, description = desc)
+                notesList.add(notes)
+                addNotesToDb(notes)
             } else {
                 Toast.makeText(this, "Title or Description can't be empty", Toast.LENGTH_SHORT).show()
             }
-            setupRecyclerView()
             dialog.hide()
         }
 
@@ -97,11 +107,23 @@ class MyNotesActivity : AppCompatActivity() {
                 intent.putExtra(AppConstant.DESCRIPTION, notes.description)
                 startActivity(intent)
             }
+
+            override fun onUpdate(notes: Notes) {
+                val notesApp = applicationContext as NotesApp
+                val notesDao = notesApp.getNotesDb().notesDao()
+                notesDao.updateNotes(notes)
+            }
         }
         val notesAdapter = NotesAdapter(notesList, itemClickListener)
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.VERTICAL
         notesRV.layoutManager = layoutManager
         notesRV.adapter = notesAdapter
+    }
+
+    private fun addNotesToDb(notes: Notes) {
+        val notesApp = applicationContext as NotesApp
+        val notesDao = notesApp.getNotesDb().notesDao()
+        notesDao.insert(notes)
     }
 }

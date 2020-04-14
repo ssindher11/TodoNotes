@@ -3,11 +3,12 @@ package com.ssindher11.todonotes.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssindher11.todonotes.R
 import com.ssindher11.todonotes.clicklisteners.ItemClickListener
-import com.ssindher11.todonotes.model.Notes
+import com.ssindher11.todonotes.db.Notes
 
 class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListener) : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
@@ -27,11 +28,18 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
 
         holder.titleTV.text = title
         holder.descTV.text = description
+        holder.markStatusCB.isChecked = notes.isTaskCompleted
+
         holder.itemView.setOnClickListener { itemClickListener.onClick(notes) }
+        holder.markStatusCB.setOnCheckedChangeListener { _, isChecked ->
+            notes.isTaskCompleted = isChecked
+            itemClickListener.onUpdate(notes)
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTV: TextView = itemView.findViewById(R.id.tv_title)
         val descTV: TextView = itemView.findViewById(R.id.tv_description)
+        val markStatusCB: CheckBox = itemView.findViewById(R.id.cb_mark_status)
     }
 }
