@@ -7,6 +7,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Constraints
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ssindher11.todonotes.NotesApp
 import com.ssindher11.todonotes.R
@@ -15,6 +18,8 @@ import com.ssindher11.todonotes.clicklisteners.ItemClickListener
 import com.ssindher11.todonotes.db.Notes
 import com.ssindher11.todonotes.utils.AppConstant
 import com.ssindher11.todonotes.utils.PrefConstant
+import com.ssindher11.todonotes.workmanager.MyWorker
+import java.util.concurrent.TimeUnit
 
 class MyNotesActivity : AppCompatActivity() {
 
@@ -37,11 +42,11 @@ class MyNotesActivity : AppCompatActivity() {
         getIntentData()
         getDataFromDatabase()
         setupRecyclerView()
+        setupWorkManager()
 
         nameTV.text = fullName
 
         fabAddNotes.setOnClickListener {
-            // setupDialogBox()
             startActivityForResult(Intent(this@MyNotesActivity, AddNotesActivity::class.java), ADD_NOTES_CODE)
         }
     }
@@ -112,5 +117,14 @@ class MyNotesActivity : AppCompatActivity() {
             notesList.add(notes)
             notesRV.adapter?.notifyItemChanged(notesList.size - 1)
         }
+    }
+
+    private fun setupWorkManager() {
+        val constraint = Constraints.Builder()
+                .build()
+        val request = PeriodicWorkRequest.Builder(MyWorker::class.java, 1, TimeUnit.MINUTES)
+                .setConstraints(constraint)
+                .build()
+        WorkManager.getInstance().enqueue(request)
     }
 }
