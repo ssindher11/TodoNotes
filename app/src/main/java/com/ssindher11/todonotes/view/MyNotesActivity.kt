@@ -3,16 +3,10 @@ package com.ssindher11.todonotes.view
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ssindher11.todonotes.NotesApp
 import com.ssindher11.todonotes.R
@@ -30,6 +24,8 @@ class MyNotesActivity : AppCompatActivity() {
 
     lateinit var sharedPreferences: SharedPreferences
 
+    private val ADD_NOTES_CODE = 100
+
     private var fullName: String? = null
     private var notesList = ArrayList<Notes>()
 
@@ -44,7 +40,10 @@ class MyNotesActivity : AppCompatActivity() {
 
         nameTV.text = fullName
 
-        fabAddNotes.setOnClickListener { setupDialogBox() }
+        fabAddNotes.setOnClickListener {
+            // setupDialogBox()
+            startActivityForResult(Intent(this@MyNotesActivity, AddNotesActivity::class.java), ADD_NOTES_CODE)
+        }
     }
 
     private fun bindViews() {
@@ -73,32 +72,6 @@ class MyNotesActivity : AppCompatActivity() {
         notesList.addAll(notesDao.getAll())
     }
 
-    private fun setupDialogBox() {
-        val view: View = LayoutInflater.from(this@MyNotesActivity).inflate(R.layout.add_notes_dialog_layout, null)
-        val titleET: EditText = view.findViewById(R.id.et_title)
-        val descET: EditText = view.findViewById(R.id.et_description)
-        val submitBtn: MaterialButton = view.findViewById(R.id.btn_submit)
-
-        val dialog: AlertDialog = AlertDialog.Builder(this)
-                .setView(view)
-                .setCancelable(false)
-                .create()
-        submitBtn.setOnClickListener {
-            val title = titleET.text.toString()
-            val desc = descET.text.toString()
-            if (title.isNotBlank() and desc.isNotBlank()) {
-                val notes = Notes(title = title, description = desc)
-                notesList.add(notes)
-                addNotesToDb(notes)
-            } else {
-                Toast.makeText(this, "Title or Description can't be empty", Toast.LENGTH_SHORT).show()
-            }
-            dialog.hide()
-        }
-
-        dialog.show()
-    }
-
     private fun setupRecyclerView() {
         val itemClickListener: ItemClickListener = object : ItemClickListener {
             override fun onClick(notes: Notes) {
@@ -125,5 +98,19 @@ class MyNotesActivity : AppCompatActivity() {
         val notesApp = applicationContext as NotesApp
         val notesDao = notesApp.getNotesDb().notesDao()
         notesDao.insert(notes)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ADD_NOTES_CODE) {
+            val title = data?.getStringExtra(AppConstant.TITLE)
+            val description = data?.getStringExtra(AppConstant.DESCRIPTION)
+            val imagePath = data?.getStringExtra(AppConstant.IMAGE_PATH)
+
+            val notes = Notes(title = title!!, description = description!!, imagePath = imagePath!!, isTaskCompleted = false)
+            addNotesToDb(notes)
+            notesList.add(notes)
+            notesRV.adapter?.notifyItemChanged(notesList.size - 1)
+        }
     }
 }

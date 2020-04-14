@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ssindher11.todonotes.R
 import com.ssindher11.todonotes.clicklisteners.ItemClickListener
 import com.ssindher11.todonotes.db.Notes
@@ -29,6 +31,7 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
         holder.titleTV.text = title
         holder.descTV.text = description
         holder.markStatusCB.isChecked = notes.isTaskCompleted
+        Glide.with(holder.itemView).load(notes.imagePath).into(holder.previewIV)
 
         holder.itemView.setOnClickListener { itemClickListener.onClick(notes) }
         holder.markStatusCB.setOnCheckedChangeListener { _, isChecked ->
@@ -41,5 +44,6 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
         val titleTV: TextView = itemView.findViewById(R.id.tv_title)
         val descTV: TextView = itemView.findViewById(R.id.tv_description)
         val markStatusCB: CheckBox = itemView.findViewById(R.id.cb_mark_status)
+        val previewIV: ImageView = itemView.findViewById(R.id.iv_image_preview)
     }
 }
