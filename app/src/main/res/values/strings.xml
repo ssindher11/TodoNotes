@@ -12,4 +12,6 @@
     <string name="image_preview">Image preview</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="menu">menu</string>
+    <string name="blogs">Blogs</string>
 </resources>

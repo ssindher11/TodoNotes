@@ -3,6 +3,10 @@ package com.ssindher11.todonotes.view
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.MenuInflater
+import android.view.View
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +30,7 @@ class MyNotesActivity : AppCompatActivity() {
     private lateinit var fabAddNotes: FloatingActionButton
     private lateinit var notesRV: RecyclerView
     private lateinit var nameTV: TextView
+    private lateinit var menuIB: ImageButton
 
     lateinit var sharedPreferences: SharedPreferences
 
@@ -55,6 +60,7 @@ class MyNotesActivity : AppCompatActivity() {
         notesRV = findViewById(R.id.rv_notes)
         fabAddNotes = findViewById(R.id.fab_add_notes)
         nameTV = findViewById(R.id.tv_name)
+        menuIB = findViewById(R.id.ib_menu)
     }
 
     private fun setupSharedPreferences() {
@@ -126,5 +132,21 @@ class MyNotesActivity : AppCompatActivity() {
                 .setConstraints(constraint)
                 .build()
         WorkManager.getInstance().enqueue(request)
+    }
+
+    fun setupMenu(view: View) {
+        val popup = PopupMenu(this, view)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.menu, popup.menu)
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.itemBlog -> {
+                    startActivity(Intent(this@MyNotesActivity, BlogActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
     }
 }

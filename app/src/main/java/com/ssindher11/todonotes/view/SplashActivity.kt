@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
@@ -53,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
 
                     // Log and toast
                     Log.d(TAG, token)
-                    Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
                 })
 
     }
