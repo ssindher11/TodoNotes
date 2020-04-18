@@ -144,9 +144,22 @@ class MyNotesActivity : AppCompatActivity() {
                     startActivity(Intent(this@MyNotesActivity, BlogActivity::class.java))
                     true
                 }
+                R.id.logout -> {
+                    logout()
+                    true
+                }
                 else -> false
             }
         }
         popup.show()
+    }
+
+    private fun logout() {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean(PrefConstant.IS_LOGGED_IN, false)
+        editor.apply()
+
+        startActivity(Intent(this@MyNotesActivity, LoginActivity::class.java))
+        finishAfterTransition()
     }
 }

@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 saveLoginStatus()
                 saveFullname(fullName)
+                finishAfterTransition()
             } else {
                 Toast.makeText(this, "Full Name and User Name can't be empty", Toast.LENGTH_SHORT).show()
             }

@@ -9,11 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.ssindher11.todonotes.R
+import com.ssindher11.todonotes.onboarding.OnBoardingActivity
 import com.ssindher11.todonotes.utils.PrefConstant
 
 class SplashActivity : AppCompatActivity() {
 
-    val TAG = "FirebaseMsgService"
+    private val TAG = "SplashActivity"
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -32,10 +33,18 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkOnLoginStatus() {
         val isLoggedIn = sharedPreferences.getBoolean(PrefConstant.IS_LOGGED_IN, false)
+        val isOnBoarded = sharedPreferences.getBoolean(PrefConstant.ON_BOARDED_SUCCESSFULLY, false)
         if (isLoggedIn) {
             startActivity(Intent(this@SplashActivity, MyNotesActivity::class.java))
+            finishAfterTransition()
         } else {
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            if (isOnBoarded) {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finishAfterTransition()
+            } else {
+                startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
+                finishAfterTransition()
+            }
         }
     }
 
