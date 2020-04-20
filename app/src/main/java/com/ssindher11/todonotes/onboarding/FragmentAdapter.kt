@@ -10,10 +10,12 @@ class FragmentAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdap
         return when (position) {
             0 -> OnBoardingOneFragment()
             1 -> OnBoardingTwoFragment()
+            2 -> OnBoardingThreeFragment()
+            3 -> OnBoardingFourFragment()
             else -> OnBoardingOneFragment()
         }
     }
 
-    override fun getCount(): Int = 2
+    override fun getCount(): Int = 4
 
 }

@@ -10,7 +10,10 @@ import com.ssindher11.todonotes.R
 import com.ssindher11.todonotes.utils.PrefConstant
 import com.ssindher11.todonotes.view.LoginActivity
 
-class OnBoardingActivity : AppCompatActivity(), OnBoardingOneFragment.OnNextClick, OnBoardingTwoFragment.OnButtonClick {
+class OnBoardingActivity : AppCompatActivity(), OnBoardingOneFragment.OnNextClick,
+        OnBoardingTwoFragment.OnButtonClick,
+        OnBoardingThreeFragment.OnButtonClick,
+        OnBoardingFourFragment.OnButtonClick {
 
     private lateinit var viewPager: ViewPager
 
@@ -33,8 +36,28 @@ class OnBoardingActivity : AppCompatActivity(), OnBoardingOneFragment.OnNextClic
         sharedPreferences = getSharedPreferences(PrefConstant.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
-    override fun onClick() {
+    override fun onOneNext() {
         viewPager.currentItem = 1
+    }
+
+    override fun onTwoBack() {
+        viewPager.currentItem = 0
+    }
+
+    override fun onTwoNext() {
+        viewPager.currentItem = 2
+    }
+
+    override fun onThreeBack() {
+        viewPager.currentItem = 1
+    }
+
+    override fun onThreeNext() {
+        viewPager.currentItem = 3
+    }
+
+    override fun onFourBack() {
+        viewPager.currentItem = 2
     }
 
     override fun onDone() {
@@ -44,9 +67,5 @@ class OnBoardingActivity : AppCompatActivity(), OnBoardingOneFragment.OnNextClic
 
         startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
         finishAfterTransition()
-    }
-
-    override fun onBack() {
-        viewPager.currentItem = 0
     }
 }

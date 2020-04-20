@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
@@ -32,18 +33,25 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkOnLoginStatus() {
+        val LAUNCH_DELAY = 750L
         val isLoggedIn = sharedPreferences.getBoolean(PrefConstant.IS_LOGGED_IN, false)
         val isOnBoarded = sharedPreferences.getBoolean(PrefConstant.ON_BOARDED_SUCCESSFULLY, false)
         if (isLoggedIn) {
-            startActivity(Intent(this@SplashActivity, MyNotesActivity::class.java))
-            finishAfterTransition()
+            Handler().postDelayed({
+                startActivity(Intent(this@SplashActivity, MyNotesActivity::class.java))
+                finishAfterTransition()
+            }, LAUNCH_DELAY)
         } else {
             if (isOnBoarded) {
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                finishAfterTransition()
+                Handler().postDelayed({
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                    finishAfterTransition()
+                }, LAUNCH_DELAY)
             } else {
-                startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
-                finishAfterTransition()
+                Handler().postDelayed({
+                    startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
+                    finishAfterTransition()
+                }, LAUNCH_DELAY)
             }
         }
     }

@@ -14,4 +14,13 @@
     <string name="gallery">Gallery</string>
     <string name="menu">menu</string>
     <string name="blogs">Blogs</string>
+    <string name="todo_notes_app">Todo Notes App</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="onboarding">Onboarding</string>
+    <string name="manage_your_todo_s_list">Manage your Todo\'s list</string>
+    <string name="add_pictures_to_your_notes">Add pictures to your notes</string>
+    <string name="get_updated_with_latest_blogs">Get updated with latest blogs</string>
+    <string name="done">Done</string>
+    <string name="get_updated_through_push_notifications">Get updated through push notifications</string>
 </resources>

@@ -37,12 +37,12 @@ class OnBoardingTwoFragment : Fragment() {
     }
 
     private fun setClickListeners() {
-        doneTV.setOnClickListener { onButtonClick.onDone() }
-        backTV.setOnClickListener { onButtonClick.onBack() }
+        doneTV.setOnClickListener { onButtonClick.onTwoNext() }
+        backTV.setOnClickListener { onButtonClick.onTwoBack() }
     }
 
     interface OnButtonClick {
-        fun onDone()
-        fun onBack()
+        fun onTwoNext()
+        fun onTwoBack()
     }
 }

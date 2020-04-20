@@ -9,18 +9,20 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.ssindher11.todonotes.R
 
-class OnBoardingOneFragment : Fragment() {
+class OnBoardingThreeFragment : Fragment() {
 
-    private lateinit var nextTV: TextView
-    private lateinit var onNextClick: OnNextClick
+    private lateinit var doneTV: TextView
+    private lateinit var backTV: TextView
+
+    lateinit var onButtonClick: OnButtonClick
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onNextClick = context as OnNextClick
+        onButtonClick = context as OnButtonClick
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_on_boarding_one, container, false)
+        return inflater.inflate(R.layout.fragment_on_boarding_three, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,14 +32,17 @@ class OnBoardingOneFragment : Fragment() {
     }
 
     private fun bindViews(view: View) {
-        nextTV = view.findViewById(R.id.tv_next_one)
+        doneTV = view.findViewById(R.id.tv_done_three)
+        backTV = view.findViewById(R.id.tv_back_three)
     }
 
     private fun setClickListeners() {
-        nextTV.setOnClickListener { onNextClick.onOneNext() }
+        doneTV.setOnClickListener { onButtonClick.onThreeNext() }
+        backTV.setOnClickListener { onButtonClick.onThreeBack() }
     }
 
-    interface OnNextClick {
-        fun onOneNext()
+    interface OnButtonClick {
+        fun onThreeNext()
+        fun onThreeBack()
     }
 }
