@@ -23,4 +23,7 @@
     <string name="get_updated_with_latest_blogs">Get updated with latest blogs</string>
     <string name="done">Done</string>
     <string name="get_updated_through_push_notifications">Get updated through push notifications</string>
+    <string name="no_notes">No Notes</string>
+    <string name="no_notes_yet_nadd_some_notes_by_clicking_on">No notes yet\nAdd some notes by clicking on \'+\'</string>
+    <string name="add_image">Add Image</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,8 @@ class MyNotesActivity : AppCompatActivity() {
     private lateinit var notesRV: RecyclerView
     private lateinit var nameTV: TextView
     private lateinit var menuIB: ImageButton
+    private lateinit var noNotesIV: ImageView
+    private lateinit var noNotesTV: TextView
 
     lateinit var sharedPreferences: SharedPreferences
 
@@ -61,6 +64,8 @@ class MyNotesActivity : AppCompatActivity() {
         fabAddNotes = findViewById(R.id.fab_add_notes)
         nameTV = findViewById(R.id.tv_name)
         menuIB = findViewById(R.id.ib_menu)
+        noNotesIV = findViewById(R.id.iv_no_notes)
+        noNotesTV = findViewById(R.id.tv_no_notes)
     }
 
     private fun setupSharedPreferences() {
@@ -89,6 +94,7 @@ class MyNotesActivity : AppCompatActivity() {
                 val intent = Intent(this@MyNotesActivity, DetailActivity::class.java)
                 intent.putExtra(AppConstant.TITLE, notes.title)
                 intent.putExtra(AppConstant.DESCRIPTION, notes.description)
+                intent.putExtra(AppConstant.IMAGE_PATH, notes.imagePath)
                 startActivity(intent)
             }
 
@@ -103,6 +109,12 @@ class MyNotesActivity : AppCompatActivity() {
         layoutManager.orientation = RecyclerView.VERTICAL
         notesRV.layoutManager = layoutManager
         notesRV.adapter = notesAdapter
+
+        if (notesList.size != 0) {
+            notesRV.visibility = View.VISIBLE
+            noNotesIV.visibility = View.GONE
+            noNotesTV.visibility = View.GONE
+        }
     }
 
     private fun addNotesToDb(notes: Notes) {
@@ -118,10 +130,17 @@ class MyNotesActivity : AppCompatActivity() {
             val description = data?.getStringExtra(AppConstant.DESCRIPTION)
             val imagePath = data?.getStringExtra(AppConstant.IMAGE_PATH)
 
-            val notes = Notes(title = title!!, description = description!!, imagePath = imagePath!!, isTaskCompleted = false)
-            addNotesToDb(notes)
-            notesList.add(notes)
-            notesRV.adapter?.notifyItemChanged(notesList.size - 1)
+            if (!title.isNullOrBlank() && !description.isNullOrBlank()) {
+                val notes = Notes(title = title, description = description, imagePath = imagePath!!, isTaskCompleted = false)
+                addNotesToDb(notes)
+                notesList.add(notes)
+                notesRV.adapter?.notifyItemChanged(notesList.size - 1)
+                if (notesList.size != 0) {
+                    notesRV.visibility = View.VISIBLE
+                    noNotesIV.visibility = View.GONE
+                    noNotesTV.visibility = View.GONE
+                }
+            }
         }
     }
 

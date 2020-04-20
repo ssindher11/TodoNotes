@@ -8,6 +8,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,6 +33,7 @@ class AddNotesActivity : AppCompatActivity() {
     private lateinit var descET: EditText
     private lateinit var submitBtn: MaterialButton
     private lateinit var notesIV: ImageView
+    private lateinit var addImageBtn: MaterialButton
 
     private val REQUEST_CODE_GALLERY = 1008
     private val REQUEST_CODE_CAMERA = 1009
@@ -50,10 +52,11 @@ class AddNotesActivity : AppCompatActivity() {
         descET = findViewById(R.id.et_description)
         submitBtn = findViewById(R.id.btn_submit)
         notesIV = findViewById(R.id.iv_notes)
+        addImageBtn = findViewById(R.id.btn_add_image)
     }
 
     private fun setListeners() {
-        notesIV.setOnClickListener {
+        addImageBtn.setOnClickListener {
             if (checkAndRequestPermission()) {
                 setupDialog()
             }
@@ -119,9 +122,11 @@ class AddNotesActivity : AppCompatActivity() {
                     picturePath = cursor?.getString(columnIndex!!)!!
                     cursor.close()
                     Glide.with(this).load(picturePath).into(notesIV)
+                    addImageBtn.visibility = View.GONE
                 }
                 REQUEST_CODE_CAMERA -> {
                     Glide.with(this).load(picturePath).into(notesIV)
+                    addImageBtn.visibility = View.GONE
                 }
             }
         }
